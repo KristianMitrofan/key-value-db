@@ -1,0 +1,10 @@
+"person0" : {}
+"person1" : {"height": "826.33"; "level": "571468"; "address": {"height": "355.35"; "address": {"name": "jud"; "number": "482972"}}}
+"person2" : {}
+"person3" : {}
+"person4" : {"address": {}; "height": "986.19"}
+"person5" : {"age": "387356"; "level": "721893"}
+"person6" : {"address": {"height": "795.47"; "address": {"level": "784408"; "name": "bi6"}}; "height": "487.52"}
+"person7" : {"age": "968117"}
+"person8" : {"number": "253546"}
+"person9" : {"number": "524993"; "level": "450594"; "name": "c5t"; "street": "399"}

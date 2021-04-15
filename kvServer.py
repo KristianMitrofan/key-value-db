@@ -89,6 +89,7 @@ if __name__ == "__main__":
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((host, port))
     #Listen for a connection from the kvBroker
+    print("Server started listening ...")
     s.listen()
     conn, addr = s.accept()
     with conn:

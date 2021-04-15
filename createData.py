@@ -75,3 +75,5 @@ if __name__ == "__main__":
         data_of.write(line)
 
     data_of.close()
+
+    print("Data was generated!")

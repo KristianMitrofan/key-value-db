@@ -3,22 +3,6 @@ import random
 import string
 import sys
 
-"""
--n indicates the number of lines (i.e. separate data) that we would like to generate (e.g. 1000)
--d is the maximum level of nesting (i.e. how many times in a line a value can have a set of key :
-values). Zero means no nesting, i.e. there is only one set of key-values per line (in the value of the
-high level key)
-M111 - Big Data - Spring 2021 - Programming Assignment
-Deadline: April 16th 2021, 23:59
--m is the maximum number of keys inside each value.
--l is the maximum length of a string value whenever you need to generate a string. For example 4
-means that we can generate Strings of up to length 4 (e.g. “ab”, “abcd”, “a”). We should not generate
-empty strings (i.e. “” is not correct). Strings can be only letters (upper and lowercase) and numbers. No
-symbols.
--k keyFile.txt is a file containing a space-separated list of key names and their data types that we
-can potentially use for creating data
-"""
-
 if __name__ == "__main__":
     #Some constant variables about the random data generated
     MAX_INT = 1000000

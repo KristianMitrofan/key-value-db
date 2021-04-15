@@ -119,6 +119,6 @@ if __name__ == "__main__":
 
     #Start accepting commands
     while True:
-        command = input("Input an element: ")
+        command = input("INPUT A COMMAND: ")
         handle_command(sockets,command)
         

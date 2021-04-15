@@ -43,7 +43,7 @@ def execute_command(sock,conn,trie,command):
                     try:
                         dict_value = json.loads(value)
                         trie.insert(key,dict_value)
-                        success_message(conn,value + " was inserted!")
+                        success_message(conn,key + " : " + value + " was inserted!")
                     except:
                         error_message(conn,"data is in the wrong format!")
             #GET person1
@@ -76,7 +76,7 @@ def execute_command(sock,conn,trie,command):
 if __name__ == "__main__":
     #Default values
     host = '127.0.0.1' 
-    port = 65432
+    port = 60000
     #kvServer -a ip_address -p port
     for i, arg in enumerate(sys.argv):
         if arg == "-a":

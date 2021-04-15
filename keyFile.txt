@@ -6,3 +6,5 @@ height float
 street string
 level int
 number int
+nationality string
+contact set

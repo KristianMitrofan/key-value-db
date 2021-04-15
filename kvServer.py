@@ -4,12 +4,18 @@ import json
 import socket
 import kvTrie
 
-def error_message(conn,error):
-    encoded_error = ("ERROR: " + error).encode("utf-8")
-    conn.sendall(encoded_error)
+MSG_LENGTH = 1024
+
+def error_message(conn,msg):
+    encoded_msg = ("ERROR: " + msg).encode("utf-8")
+    conn.sendall(encoded_msg)
 
 def success_message(conn,msg):
     encoded_msg = ("OK: " + msg).encode("utf-8")
+    conn.sendall(encoded_msg)
+
+def not_found_message(conn,msg):
+    encoded_msg = ("NOT FOUND: " + msg).encode("utf-8")
     conn.sendall(encoded_msg)
 
 def execute_command(sock,conn,trie,command):
@@ -17,8 +23,11 @@ def execute_command(sock,conn,trie,command):
     
     if(split_command[0] == "TERMINATE"):
         #host, port = sock.getpeername()
+        ## getting the IP address using socket.gethostbyname() method
+        host = sock.getsockname()[0]
+        port = sock.getsockname()[1]
         del(trie)
-        conn.sendall(("Server with ip: " + host + " and port: " + str(port) + " has terminated!").encode("utf-8"))
+        success_message(conn,"Server with ip: " + host + " and port: " + str(port) + " has terminated!")
         sock.close()
     else:
         if len(split_command) >=2 and split_command[1]:
@@ -39,34 +48,36 @@ def execute_command(sock,conn,trie,command):
                         error_message(conn,"data is in the wrong format!")
             #GET person1
             elif command == "GET":
-                #For simple GET remove . so it does not search the whole tree
-                key = data.replace("\"","").replace(".","").strip()
+                key = data.replace("\"","").replace("."," ").strip()
                 value = trie.search(key)
                 if value is not None:
-                    success_message(conn,key + " : " + str(value))
+                    success_message(conn,key + " : " + value)
                 else:
-                    error_message(conn,key + " could not be found!")
+                    not_found_message(conn,data + " could not be found!")
+            #DELETE person1
             elif command == "DELETE":
                 key = data.replace("\"","").strip()
                 if trie.delete(key):
                     success_message(conn,key + " was deleted!")
                 else:
-                    error_message(conn,key + " could not be found!")
+                    not_found_message(conn,key + " could not be found!")
+            #QUERY person1.age
             elif command == "QUERY":
                 key = data.replace("\"","").strip()
                 value = trie.search(key)
                 if value is not None:
-                    success_message(conn,key + " : " + str(value))
+                    success_message(conn,key + " : " + value)
                 else:
-                    error_message(conn,key + " could not be found!")
+                    not_found_message(conn,data + " could not be found!")
 
         else:
             error_message(conn,"no data sent along with command!")
 
 if __name__ == "__main__":
+    #Default values
     host = '127.0.0.1' 
     port = 65432
-
+    #kvServer -a ip_address -p port
     for i, arg in enumerate(sys.argv):
         if arg == "-a":
             ip_address = sys.argv[i+1]
@@ -81,9 +92,9 @@ if __name__ == "__main__":
     s.listen()
     conn, addr = s.accept()
     with conn:
-        print('Connected by', addr)
+        print("Connected by kvBroker " + host + " using port " + str(port))
         while True:
-            data = conn.recv(1024)
+            data = conn.recv(MSG_LENGTH)
             if not data:
                 break
             else:

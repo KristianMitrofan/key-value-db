@@ -35,7 +35,8 @@ class Trie:
                 node = new_node
 
         node.is_leaf = True 
-        node.value = value
+        #Store the value as a string using the format needed
+        node.value = str(value).replace("\'","\"").replace(",",";").strip()
         node.trie = Trie()
         #Return the trie of the leaf node
         return node
